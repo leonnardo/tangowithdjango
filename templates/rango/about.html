@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+{%  load staticfiles %}
+
+<html>
+<head>
+    <title>About</title>
+</head>
+<body>
+    <div>
+        <p>This tutorial has been put together by {{ name }}</p>
+        <img src="{% static 'images/me.jpg' %}" alt="This is me!" />
+    </div>
+
+    <div>
+        <p>This is a dog, proving that media dir is working</p>
+        <img src={{ MEDIA_URL }}dog.jpg alt="Dog picture and media dir Working" />
+    </div>
+
+    <div>
+        <p>Get back to <a href="/rango/">index</a></p>
+    </div>
+
+</body>
+</html>
