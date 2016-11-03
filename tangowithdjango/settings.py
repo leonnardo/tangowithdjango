@@ -95,6 +95,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': { 'min_length': 6 }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -127,3 +128,6 @@ STATICFILES_DIRS = [STATIC_DIR,]
 # Media files (dynamic content)
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
+
+# Redirect to this url if someone try to access user restricted content
+LOGIN_URL = '/rango/login/'

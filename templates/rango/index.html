@@ -4,7 +4,12 @@
 {% block body_block %}
 	<h1>Rango says...</h1>
 	<div>
-		hey there, partner! <br />
+		{% if user.is_authenticated %}
+            hey {{ user.username }}
+        {% else %}
+            hey there, partner!
+        {% endif %}
+        <br />
 	</div>
 	<div>
 		<h2>Most Liked Categories</h2>
