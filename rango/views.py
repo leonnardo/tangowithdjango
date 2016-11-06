@@ -5,8 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+
 from rango.models import Category, Page
 from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
+
+from registration.backends.simple.views import RegistrationView
 
 
 # Helper Functions
@@ -205,3 +208,6 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 
+class MyRegistrationView(RegistrationView):
+    def get_success_url(self, user):
+        return '/rango/'
