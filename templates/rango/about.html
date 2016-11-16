@@ -1,19 +1,19 @@
 {% extends 'rango/base.html' %}
-{%  load staticfiles %}
+{% load staticfiles %}
 
 {% block title_block %}About{% endblock %}
 
 {% block body_block %}
-    <div>
-        <p> You have visited this site {{ visits }} times</p>
-    </div>
-    <div>
-        <p>This tutorial has been put together by {{ name }}</p>
-        <img src="{% static 'images/me.jpg' %}" alt="This is me!" />
-    </div>
+  <div>
+    <p> You have visited this site {{ visits }} times</p>
+  </div>
+  <div>
+    <p>This tutorial has been put together by {{ name }}</p>
+    <img src="{% static 'images/me.jpg' %}" alt="This is me!"/>
+  </div>
 
-    <div>
-        <p>This is a dog, proving that media dir is working</p>
-        <img src={{ MEDIA_URL }}dog.jpg alt="Dog picture and media dir Working" />
-    </div>
+  <div>
+    <p>This is a dog, proving that media dir is working</p>
+    <img src={{ MEDIA_URL }}dog.jpg alt="Dog picture and media dir Working"/>
+  </div>
 {% endblock %}
