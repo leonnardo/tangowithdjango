@@ -5,11 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
+from registration.backends.simple.views import RegistrationView
 
 from rango.models import Category, Page
 from .forms import CategoryForm, PageForm, UserForm, UserProfileForm
-
-from registration.backends.simple.views import RegistrationView
+from .bing_search import run_query
 
 
 # Helper Functions
@@ -202,6 +202,19 @@ def user_login(request):
 
     else:
         return render(request, 'rango/login.html', {})
+
+
+def search(request):
+    result_list = []
+    query_string = None
+
+    if request.method == 'POST':
+        query_string = request.POST['query']
+        query = query_string.strip()
+        if query:
+            result_list = run_query(query)
+    return render(request, 'rango/search.html', {'query': query_string,
+                                                 'result_list': result_list})
 
 @login_required
 def user_logout(request):

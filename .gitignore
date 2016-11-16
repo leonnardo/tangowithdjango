@@ -11,3 +11,6 @@ media
 
 ### Ignore .ideia files
 .idea/
+
+### Project keys
+bing.key
