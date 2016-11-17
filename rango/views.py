@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from registration.backends.simple.views import RegistrationView
 
 from rango.models import Category, Page
@@ -18,6 +18,7 @@ def get_server_side_cookie(request, cookie, default_val=None):
     if not val:
         val = default_val
     return val
+
 
 def visitor_cookie_handler(request):
     visits = int(get_server_side_cookie(request, 'visits', '1'))
@@ -53,11 +54,13 @@ def index(request):
     context['visits'] = request.session['visits']
     return render(request, 'rango/index.html', context)
 
+
 def about(request):
     context = { 'name' : 'Leonnardo'}
     visitor_cookie_handler(request)
     context['visits'] = request.session['visits']
     return render(request,'rango/about.html', context=context)
+
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -73,6 +76,7 @@ def show_category(request, category_name_slug):
         context_dict['pages'] = None
 
     return render(request, 'rango/category.html', context_dict)
+
 
 @login_required
 def add_category(request):
@@ -98,6 +102,7 @@ def add_category(request):
 
     return render(request, 'rango/add_category.html', {'form': form})
 
+
 @login_required
 def add_page(request, category_name_slug):
     try:
@@ -120,6 +125,7 @@ def add_page(request, category_name_slug):
 
     context_dict = { 'form': form, 'category': category }
     return render(request, 'rango/add_page.html', context_dict)
+
 
 def register(request):
     # A boolean value for telling the template
@@ -171,8 +177,8 @@ def register(request):
                    'profile_form': profile_form,
                    'registered':  registered})
 
-def user_login(request):
 
+def user_login(request):
     # If the request is a HTTP POST, try to pull out the relevant information.
     if request.method == 'POST':
         # Gather the username and password provided by the user.
@@ -215,6 +221,17 @@ def search(request):
             result_list = run_query(query)
     return render(request, 'rango/search.html', {'query': query_string,
                                                  'result_list': result_list})
+
+
+def track_url(request, page_id):
+    if page_id:
+        page = Page.objects.get(id=page_id)
+        page.views += 1
+        page.save()
+        return redirect(page.url)
+
+    return redirect(reverse('index'))
+
 
 @login_required
 def user_logout(request):
